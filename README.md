@@ -22,7 +22,7 @@ O gestor de tarefas permite as seguintes operações básicas (CRUD):
 * **Peewee** (usado como o ORM para mapear objetos Python para a base de dados)
 * **SQLite** (usada como a base de dados leve, baseada em ficheiro)
 
-## Etapas do código
+## 🧩Etapas do código
 
 * **ETAPA 1 - IMPORTAÇÕES:** Agrupa todas as bibliotecas que o teu programa precisa para funcionar (neste caso, apenas peewee).
 
