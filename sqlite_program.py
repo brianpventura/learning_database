@@ -1,10 +1,13 @@
-from peewee import *
-import os
+# --- ETAPA 1 - importações ---
 
-# --- ETAPA 1 - Criação da Base de Dados ---
+from peewee import *
+
+# --- ETAPA 2 - Configuração da Base de Dados ---
+
 banco = SqliteDatabase('tarefas_orm.db')
 
-# --- ETAPA 2
+# --- ETAPA 3 - Definição dos Modelos ORM (Tabelas) ---
+
 class BaseModel(Model):
     class Meta:
         database = banco
@@ -16,7 +19,9 @@ class Tarefa(BaseModel):
 
     def __str__(self):
         return f"[{self.id}] - {self.nome} ({self.estado})"
-    
+
+# --- ETAPA 4 - Funções de Gestão de Tarefas (Lógica da Aplicação) ---
+
 def inicializar_banco():
     banco.connect()
     banco.create_tables([Tarefa])
@@ -55,10 +60,10 @@ def visualizar_tarefas():
         print('\nNão há tarefas registradas!')
         return
     
-    print('--- Lista de Tarefas ---')
+    print('\n--- Lista de Tarefas ---')
     for tarefa in tarefas:
         print(tarefa)
-    print('-'*15)
+    print('-'*25)
 
 def concluir_tarefa(id_tarefa):
     try:
@@ -67,14 +72,16 @@ def concluir_tarefa(id_tarefa):
         if tarefa_obj and tarefa_obj.estado == 'Pendente':
             tarefa_obj.estado = 'Concluída'
             tarefa_obj.save()
-            print(f'Tarefa com id [{id_tarefa} concluída!]')
+            print(f'Tarefa com id [{id_tarefa}] concluída!')
         elif tarefa_obj:
-            print(f'A tarefa com id {id_tarefa} já havia sido concluída.')
+            print(f'A tarefa com id [{id_tarefa}] já havia sido concluída.')
         else:
             print(f'Tarefa com id [{id_tarefa}] não foi encontrada.')
 
     except Exception as e:
         print(f'Erro ao concluir tarefa: {e}')
+
+# --- ETAPA 5 - Interface do Utilizador (Menu Principal) ---
 
 def menu_principal():
     inicializar_banco()
@@ -87,7 +94,12 @@ def menu_principal():
         print("4. Deletar uma tarefa")
         print("5. Sair")
 
-        escolha = int(input('Escolha uma opção: '))
+        try: 
+            escolha = int(input('Escolha uma opção: '))
+
+        except ValueError:
+            print('Opção inválida. Digite um número!')
+            continue
         
         match escolha:
             case 1:
@@ -124,6 +136,8 @@ def menu_principal():
 
             case _:
                 print('Opção inválida! Tente novamente.')
+
+# --- ETAPA 6 - Ponto de Entrada da Aplicação ---
 
 if __name__ == "__main__":
     menu_principal()
