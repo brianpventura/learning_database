@@ -1,9 +1,8 @@
 # --- gui.py ---
 # Responsabilidade: Ponto de entrada e Interface Gráfica (GUI)
-# Versão 2.0 - Baseada no mockup visual do utilizador.
 
 import customtkinter as ctk
-from database import inicializar_banco, banco
+from database import banco
 from logic import (
     adicionar_tarefa, 
     deletar_tarefa, 
@@ -197,14 +196,5 @@ class AppGestorTarefas(ctk.CTk):
     def fechar_app(self):
         """Fecha a conexão com o banco antes de fechar a janela."""
         banco.close()
-        print("Conexão com o banco fechada. Adeus!")
+        print("Conexão com o banco fechada. Até logo!")
         self.destroy()
-
-# --- Ponto de Entrada da Aplicação ---
-if __name__ == "__main__":
-    
-    inicializar_banco()
-    
-    app = AppGestorTarefas()
-    app.protocol("WM_DELETE_WINDOW", app.fechar_app)
-    app.mainloop()
